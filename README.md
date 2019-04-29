@@ -22,7 +22,7 @@ The file contains 152010 records with the following fields:
 
 Only the trajectories having 20 to 60 records over a 2-hour time window (time windows might vary) are included. Trajectories outside the common spacial frame were excluded.
 
-#Proposed approach
+# Proposed approach
 
 We need to deal with the fact that trajectories are not aligned in time and their measurements are not provided at the regular time intervals. For that purpose:
 
@@ -34,7 +34,7 @@ We need to deal with the fact that trajectories are not aligned in time and thei
 
 - Detect 0.5\%-outliers (trajectories with low 0.5\% likelihood according to the trained Gaussian Mixture model) and visualize them in bold on top.
 
-#Challenge
+# Challenge
 1. Implement the approach in iPython notebook, commenting the code and results;
 2. Discuss the limitations of k-means clustering if used directly instead of Gaussian Mixture in this case;
 3. Discuss the limitations of the approach based on clustering the above vectors of trajectory locations revealing similar/anomalous mobility patterns. Propose any alternative approaches you may think of (just discussion, no implementation required). 

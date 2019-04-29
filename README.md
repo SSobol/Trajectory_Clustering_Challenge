@@ -35,7 +35,7 @@ We need to deal with the fact that trajectories are not aligned in time and thei
 - Detect 0.5\%-outliers (trajectories with low 0.5\% likelihood according to the trained Gaussian Mixture model) and visualize them in bold on top.
 
 # Challenge
-1. Implement the approach in iPython notebook, commenting the code and results;
+1. Implement the approach in iPython notebook, commenting the code and results; identify the time-consuming parts and attempt to optimize the code for time performance;
 2. Discuss the limitations of k-means clustering if used directly instead of Gaussian Mixture in this case;
 3. Discuss the limitations of the approach based on clustering the above vectors of trajectory locations revealing similar/anomalous mobility patterns. Propose any alternative approaches you may think of (just discussion, no implementation required). 
 

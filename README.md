@@ -28,13 +28,14 @@ We need to deal with the fact that trajectories are not aligned in time and thei
 
 - Introduce uniform timescale: for each trajectory define the first available measurements together with xy-interpolations at the following 20 checkpoints (moments of time): 5,10,15...,100 min from the time of first measurement; for each of the above checkpoints, linear time interpolations to be defined based on the last available measurement before the checkpoint and the first measurement after it; trajectories having no measurements after 100'th min to be discarded; represent each trajectory as a vector of 21 xy-locations corresponding to the first measurement and 20 checkpoints;
 
-- Try Gaussian Mixture clustering of the above vector representations for different numbers of clusters k=3,4,...20; compute average Silhuette score; pick up k which maximizes the average Silhuette;
+- Try K-means clustering of the above vector representations for different numbers of clusters k=3,4,...20; compute average Silhuette score; pick up k which maximizes the average Silhuette;
 
-- For the selected k visualize the clustering - plot the trajectories using different semi-transparent colors depending on the cluster each trajectory belongs to;
+- For the selected k perform the Gaussian Mixture clustering and visualize the results - for each cluster plot the trajectories which belong to it on a separate plot;
 
-- Detect 0.5\%-outliers (trajectories with low 0.5\% likelihood according to the trained Gaussian Mixture model) and visualize them in bold on top.
+- Detect 0.2\%-outliers (trajectories with low 0.2\% likelihood according to the trained Gaussian Mixture model) and visualize them in bold on top top of all the other trajectories in light grey.
 
 # Challenge
+
 1. Implement the approach in iPython notebook, commenting the code and results; identify the time-consuming parts and attempt to optimize the code for time performance;
 2. Discuss the limitations of k-means clustering if used directly instead of Gaussian Mixture in this case;
 3. Discuss the limitations of the approach based on clustering the above vectors of trajectory locations revealing similar/anomalous mobility patterns. Propose any alternative approaches you may think of (just discussion, no implementation required). 

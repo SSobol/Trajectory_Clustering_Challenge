@@ -150,10 +150,10 @@ def simulateRWPopulation(n, m, params, iterN = 100, seed = 1): #Random walk popu
 
     return pop, wpop, mob, xy, d
 
-def simulateCity(m = 900, n = 1000000, seed = 1):
-        pop, jobs, mob, xy, d = simulateRWPopulation(n = n, m = m, params = {'pnr' : 0.0001, 'pnw': 0.0003, 'psr': 0.001, 'psw': 0.001, 'rad' : 1.0}, seed = seed, iterN = 10) #simulate jobs
+def simulateCity(m = 900, n = 10000, params = {}, seed = 1):
+        pop, jobs, mob, xy, d = simulateRWPopulation(n = n, m = m, params = params, seed = seed, iterN = 10) #simulate jobs
         analyzePopDistr('Synthetic pop', pop = pop, xy = xy, logpop = True)
-        #analyzePopDistr('Synthetic jobs', pop = jobs, xy = xy, d = d, flows = mob, area = np.ones(m), graphics = visualize, logpop = True, logflows = True)
+        analyzePopDistr('Synthetic jobs', pop = jobs, xy = xy, logpop = True)
 
 
 def analyzePopDistr(city, pop, xy, logpop = True): #analysis of the population and flow distribution for the city based on initial or fitted node coordinates xy
@@ -290,12 +290,12 @@ class BatchingGravityModel(GravityModel):
                 print(f"Step {step}: Avg Loss = {total_loss / bc}")
 
 #Pick a city to analyze or '' for simulation explaining log-normal pop distribution emergence
-city = '' # 'New York City' #'Philadelphia' #Boston 'Philadelphia' New York City
+city = 'Philadelphia' # 'New York City' #'Philadelphia' #Boston 'Philadelphia' New York City
 
 path = '/Users/stanislav/Desktop/NNClustering/LabCodes/SFdata/'
 
 if len(city) == 0: #simulate city
-    simulateCity(m = 400, n = 5000, seed = 1)
+    simulateCity(m = 400, n = 100000, params = {'pnr' : 0.0001, 'pnw': 0.0004, 'psr': 0.001, 'psw': 0.001, 'rad' : 1.0}, seed = 1)
 else: #real city
     LEHD = pickleLoad(path + 'LEHD_cities.pkl')
     nodes = pickleLoad(path + 'LEHD_citynode_attributes.pkl')
@@ -315,9 +315,9 @@ else: #real city
 
     # Instantiate and fit model, enabling location fine-tuning
     model = GravityModel(locations = nodexy, initial_alpha = 1.0, weights = nodepop2, populations = nodepop, fine_tune_locations = False, lossType = 'binomialB1', dpow = 2)
-    model.fit(true_flows = A, steps = 300, learning_rate = 0.1, edgebatching = 0) #, batch_size = 1000
+    model.fit(true_flows = A, steps = 500, learning_rate = 0.1, edgebatching = 0) #, batch_size = 1000
     model2 = GravityModel(locations = nodexy, initial_alpha = model.alpha.item(), weights = nodepop2, populations = nodepop, fine_tune_locations = True, lossType = 'binomialB1', dpow = 2)
-    model2.fit(true_flows = A, steps = 500, learning_rate = 0.0003, edgebatching = 0) #, batch_size = 1000
+    model2.fit(true_flows = A, steps = 1000, learning_rate = 0.0003, edgebatching = 0) #, batch_size = 1000
     #model2.fit(true_flows = A, steps = 100, learning_rate = 0.0003, edgebatching = 0)
 
     analyzePopDistr(city, pop  = nodepop, xy = model2.locations.detach().data.numpy())
